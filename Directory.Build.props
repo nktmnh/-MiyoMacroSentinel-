@@ -1,0 +1,9 @@
+<Project>
+  <PropertyGroup>
+    <Authors>nktmnh</Authors>
+    <Company>nktmnh</Company>
+    <Copyright>Copyright © nktmnh</Copyright>
+    <Product>MiyoMacroSentinel</Product>
+    <Description>Privacy-first defensive document security scanner.</Description>
+  </PropertyGroup>
+</Project>

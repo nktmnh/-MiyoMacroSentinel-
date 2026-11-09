@@ -1,0 +1,17 @@
+bin/
+obj/
+.dotnet-cli-home/
+dist/
+.vs/
+.idea/
+*.user
+*.suo
+*.sqlite
+*.db
+logs/
+reports/
+qa-artifacts/
+quarantine/
+engines/yara/yara.exe
+engines/oletools/
+engines/pdf-tools/

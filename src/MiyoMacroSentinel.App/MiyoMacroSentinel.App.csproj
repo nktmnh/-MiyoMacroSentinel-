@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>..\..\assets\app-icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MiyoMacroSentinel.Core\MiyoMacroSentinel.Core.csproj" />
+    <ProjectReference Include="..\MiyoMacroSentinel.Parsers\MiyoMacroSentinel.Parsers.csproj" />
+    <ProjectReference Include="..\MiyoMacroSentinel.Rules\MiyoMacroSentinel.Rules.csproj" />
+    <ProjectReference Include="..\MiyoMacroSentinel.Reports\MiyoMacroSentinel.Reports.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="..\..\assets\app-icon.ico" Link="Assets\app-icon.ico" />
+    <Resource Include="..\..\assets\app-icon.jpg" Link="Assets\app-icon.jpg" />
+  </ItemGroup>
+
+</Project>

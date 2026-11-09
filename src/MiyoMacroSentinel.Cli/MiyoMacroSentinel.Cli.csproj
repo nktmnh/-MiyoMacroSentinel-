@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MiyoMacroSentinel.Core\MiyoMacroSentinel.Core.csproj" />
+    <ProjectReference Include="..\MiyoMacroSentinel.Parsers\MiyoMacroSentinel.Parsers.csproj" />
+    <ProjectReference Include="..\MiyoMacroSentinel.Rules\MiyoMacroSentinel.Rules.csproj" />
+    <ProjectReference Include="..\MiyoMacroSentinel.Reports\MiyoMacroSentinel.Reports.csproj" />
+  </ItemGroup>
+
+</Project>

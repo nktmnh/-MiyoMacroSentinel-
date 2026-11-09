@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MiyoMacroSentinel.App/MiyoMacroSentinel.App.csproj" />
+    <Project Path="src/MiyoMacroSentinel.Cli/MiyoMacroSentinel.Cli.csproj" />
+    <Project Path="src/MiyoMacroSentinel.Core/MiyoMacroSentinel.Core.csproj" />
+    <Project Path="src/MiyoMacroSentinel.Parsers/MiyoMacroSentinel.Parsers.csproj" />
+    <Project Path="src/MiyoMacroSentinel.Reports/MiyoMacroSentinel.Reports.csproj" />
+    <Project Path="src/MiyoMacroSentinel.Rules/MiyoMacroSentinel.Rules.csproj" />
+    <Project Path="src/MiyoMacroSentinel.Tests/MiyoMacroSentinel.Tests.csproj" />
+  </Folder>
+</Solution>

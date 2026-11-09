@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Dashboard" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="SingleFileScan" xml:space="preserve"><value>Single File Scan</value></data>
+  <data name="BatchScan" xml:space="preserve"><value>Batch Scan</value></data>
+  <data name="ScanHistory" xml:space="preserve"><value>Scan History</value></data>
+  <data name="RuleManager" xml:space="preserve"><value>Rule Manager</value></data>
+  <data name="Quarantine" xml:space="preserve"><value>Quarantine</value></data>
+  <data name="Reports" xml:space="preserve"><value>Reports</value></data>
+  <data name="Settings" xml:space="preserve"><value>Settings</value></data>
+  <data name="About" xml:space="preserve"><value>About</value></data>
+  <data name="DropFile" xml:space="preserve"><value>Drop a file here or browse</value></data>
+  <data name="Browse" xml:space="preserve"><value>Browse</value></data>
+  <data name="Scan" xml:space="preserve"><value>Scan</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="Risk" xml:space="preserve"><value>Risk</value></data>
+  <data name="Findings" xml:space="preserve"><value>Findings</value></data>
+  <data name="Iocs" xml:space="preserve"><value>IOCs</value></data>
+  <data name="HiddenChars" xml:space="preserve"><value>Hidden Characters</value></data>
+  <data name="Decoded" xml:space="preserve"><value>Decoded</value></data>
+  <data name="Privacy" xml:space="preserve"><value>Files are scanned locally by default. No upload occurs unless explicitly implemented by you.</value></data>
+</root>

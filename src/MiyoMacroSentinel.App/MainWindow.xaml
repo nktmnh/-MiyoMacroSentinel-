@@ -1,0 +1,311 @@
+<Window x:Class="MiyoMacroSentinel.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:services="clr-namespace:MiyoMacroSentinel.App.Services"
+        mc:Ignorable="d"
+        Title="MiyoMacroSentinel"
+        Icon="Assets/app-icon.ico"
+        MinHeight="760"
+        MinWidth="1160"
+        Height="840"
+        Width="1320"
+        Background="#07111f">
+    <Window.Resources>
+        <services:StringEqualsToVisibilityConverter x:Key="PageVisibility" />
+        <SolidColorBrush x:Key="PanelBrush" Color="#0d1728" />
+        <SolidColorBrush x:Key="CardBrush" Color="#101c2f" />
+        <SolidColorBrush x:Key="BorderBrushSoft" Color="#1f3c55" />
+        <SolidColorBrush x:Key="AccentBrush" Color="#37d5ff" />
+        <SolidColorBrush x:Key="TextBrush" Color="#e6f3ff" />
+        <SolidColorBrush x:Key="MutedBrush" Color="#93a9bd" />
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="MinHeight" Value="34" />
+            <Setter Property="Padding" Value="14,7" />
+            <Setter Property="Margin" Value="0,0,8,0" />
+            <Setter Property="Foreground" Value="#06111f" />
+            <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="MinHeight" Value="34" />
+            <Setter Property="Padding" Value="10,7" />
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="Background" Value="#07111f" />
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushSoft}" />
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="Margin" Value="0,8,0,8" />
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="{StaticResource CardBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushSoft}" />
+            <Setter Property="RowBackground" Value="#0d1728" />
+            <Setter Property="AlternatingRowBackground" Value="#101f34" />
+            <Setter Property="GridLinesVisibility" Value="Horizontal" />
+            <Setter Property="HeadersVisibility" Value="Column" />
+            <Setter Property="AutoGenerateColumns" Value="False" />
+            <Setter Property="CanUserAddRows" Value="False" />
+            <Setter Property="IsReadOnly" Value="True" />
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="64" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="28" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="238" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Row="0" Grid.ColumnSpan="2" Background="#091629" BorderBrush="{StaticResource BorderBrushSoft}" BorderThickness="0,0,0,1">
+            <Grid Margin="18,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Source="Assets/app-icon.jpg" Width="38" Height="38" Stretch="UniformToFill" />
+                    <StackPanel Margin="12,0,0,0">
+                        <TextBlock Text="MiyoMacroSentinel" FontSize="21" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding Strings[Privacy]}" Foreground="{StaticResource MutedBrush}" FontSize="12" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding CurrentRiskBadge}" VerticalAlignment="Center" Margin="0,0,14,0" Foreground="{StaticResource AccentBrush}" FontWeight="SemiBold" />
+                    <Button Content="VI / EN" Command="{Binding ToggleLanguageCommand}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1" Grid.Column="0" Background="#081427" BorderBrush="{StaticResource BorderBrushSoft}" BorderThickness="0,0,1,0">
+            <DockPanel Margin="12">
+                <TextBlock DockPanel.Dock="Top" Text="Navigation" Foreground="{StaticResource MutedBrush}" Margin="4,0,0,10" />
+                <ListBox ItemsSource="{Binding Pages}"
+                         DisplayMemberPath="Label"
+                         SelectedValuePath="Key"
+                         SelectedValue="{Binding SelectedPage, Mode=TwoWay}"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         Foreground="{StaticResource TextBrush}" />
+            </DockPanel>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Auto">
+            <Grid Margin="22">
+                <StackPanel Visibility="{Binding SelectedPage, Converter={StaticResource PageVisibility}, ConverterParameter=Dashboard}">
+                    <TextBlock Text="{Binding Strings[Dashboard]}" FontSize="28" FontWeight="SemiBold" />
+                    <UniformGrid Columns="5" Margin="0,18,0,18">
+                        <Border Background="{StaticResource CardBrush}" CornerRadius="8" Padding="16" Margin="0,0,10,0"><StackPanel><TextBlock Text="Total" Foreground="{StaticResource MutedBrush}" /><TextBlock Text="{Binding Stats.TotalScannedFiles}" FontSize="26" FontWeight="SemiBold" /></StackPanel></Border>
+                        <Border Background="{StaticResource CardBrush}" CornerRadius="8" Padding="16" Margin="0,0,10,0"><StackPanel><TextBlock Text="Clean" Foreground="{StaticResource MutedBrush}" /><TextBlock Text="{Binding Stats.CleanFiles}" FontSize="26" FontWeight="SemiBold" /></StackPanel></Border>
+                        <Border Background="{StaticResource CardBrush}" CornerRadius="8" Padding="16" Margin="0,0,10,0"><StackPanel><TextBlock Text="Suspicious" Foreground="{StaticResource MutedBrush}" /><TextBlock Text="{Binding Stats.SuspiciousFiles}" FontSize="26" FontWeight="SemiBold" /></StackPanel></Border>
+                        <Border Background="{StaticResource CardBrush}" CornerRadius="8" Padding="16" Margin="0,0,10,0"><StackPanel><TextBlock Text="High" Foreground="{StaticResource MutedBrush}" /><TextBlock Text="{Binding Stats.HighRiskFiles}" FontSize="26" FontWeight="SemiBold" /></StackPanel></Border>
+                        <Border Background="{StaticResource CardBrush}" CornerRadius="8" Padding="16"><StackPanel><TextBlock Text="Critical" Foreground="{StaticResource MutedBrush}" /><TextBlock Text="{Binding Stats.CriticalFiles}" FontSize="26" FontWeight="SemiBold" /></StackPanel></Border>
+                    </UniformGrid>
+                    <Border AllowDrop="True" DragOver="DropZone_OnDragOver" Drop="DropZone_OnDrop" BorderBrush="{StaticResource AccentBrush}" BorderThickness="1" CornerRadius="8" Padding="28" Background="#0b1a2e">
+                        <TextBlock Text="{Binding Strings[DropFile]}" FontSize="20" HorizontalAlignment="Center" />
+                    </Border>
+                    <TextBlock Text="Latest scans" FontSize="18" FontWeight="SemiBold" Margin="0,22,0,10" />
+                    <DataGrid ItemsSource="{Binding Stats.LatestScans}" Height="240">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="File" Binding="{Binding FileName}" Width="2*" />
+                            <DataGridTextColumn Header="Risk" Binding="{Binding RiskLevel}" Width="*" />
+                            <DataGridTextColumn Header="Score" Binding="{Binding RiskScore}" Width="*" />
+                            <DataGridTextColumn Header="Time" Binding="{Binding ScanTime}" Width="2*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding SelectedPage, Converter={StaticResource PageVisibility}, ConverterParameter=SingleFileScan}">
+                    <TextBlock Text="{Binding Strings[SingleFileScan]}" FontSize="28" FontWeight="SemiBold" />
+                    <Border AllowDrop="True" DragOver="DropZone_OnDragOver" Drop="DropZone_OnDrop" BorderBrush="{StaticResource AccentBrush}" BorderThickness="1" CornerRadius="8" Padding="24" Margin="0,18,0,14" Background="#0b1a2e">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Strings[DropFile]}" FontSize="20" HorizontalAlignment="Center" />
+                            <TextBlock Text="{Binding SelectedFilePath}" Foreground="{StaticResource MutedBrush}" HorizontalAlignment="Center" Margin="0,8,0,0" />
+                        </StackPanel>
+                    </Border>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="{Binding Strings[Browse]}" Command="{Binding BrowseFileCommand}" />
+                        <Button Content="{Binding Strings[Scan]}" Command="{Binding ScanFileCommand}" />
+                        <Button Content="{Binding Strings[Cancel]}" Command="{Binding CancelScanCommand}" />
+                    </StackPanel>
+                    <ProgressBar Value="{Binding ProgressValue}" Maximum="100" Height="10" Margin="0,16,0,8" />
+                    <TextBlock Text="{Binding CurrentStage}" Foreground="{StaticResource MutedBrush}" />
+                    <Border Background="{StaticResource CardBrush}" CornerRadius="8" Padding="18" Margin="0,18,0,0" Visibility="{Binding HasResult, Converter={StaticResource BoolToVisibility}}">
+                        <StackPanel>
+                            <TextBlock Text="{Binding CurrentRiskBadge}" FontSize="24" Foreground="{StaticResource AccentBrush}" FontWeight="SemiBold" />
+                            <TextBlock Text="{Binding CurrentResult.ExecutiveSummary}" Margin="0,8,0,12" />
+                            <TabControl Background="{StaticResource CardBrush}" Foreground="{StaticResource TextBrush}">
+                                <TabItem Header="{Binding Strings[Findings]}">
+                                    <DataGrid ItemsSource="{Binding Findings}" Height="330">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="2*" />
+                                            <DataGridTextColumn Header="Severity" Binding="{Binding Severity}" Width="*" />
+                                            <DataGridTextColumn Header="Location" Binding="{Binding Location}" Width="2*" />
+                                            <DataGridTextColumn Header="Evidence" Binding="{Binding Evidence}" Width="3*" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </TabItem>
+                                <TabItem Header="{Binding Strings[Iocs]}">
+                                    <DataGrid ItemsSource="{Binding Iocs}" Height="330">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="*" />
+                                            <DataGridTextColumn Header="Value" Binding="{Binding DisplayValue}" Width="3*" />
+                                            <DataGridTextColumn Header="Location" Binding="{Binding Location}" Width="2*" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </TabItem>
+                                <TabItem Header="{Binding Strings[HiddenChars]}">
+                                    <DataGrid ItemsSource="{Binding HiddenCharacters}" Height="330">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Char" Binding="{Binding CharacterName}" Width="2*" />
+                                            <DataGridTextColumn Header="Code" Binding="{Binding CodePoint}" Width="*" />
+                                            <DataGridTextColumn Header="Location" Binding="{Binding Location}" Width="2*" />
+                                            <DataGridTextColumn Header="Why" Binding="{Binding Explanation}" Width="3*" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </TabItem>
+                                <TabItem Header="{Binding Strings[Decoded]}">
+                                    <DataGrid ItemsSource="{Binding DecodedArtifacts}" Height="330">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Decoder" Binding="{Binding Decoder}" Width="*" />
+                                            <DataGridTextColumn Header="Source" Binding="{Binding SourceSnippet}" Width="2*" />
+                                            <DataGridTextColumn Header="Decoded" Binding="{Binding DecodedText}" Width="3*" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </TabItem>
+                            </TabControl>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding SelectedPage, Converter={StaticResource PageVisibility}, ConverterParameter=BatchScan}">
+                    <TextBlock Text="{Binding Strings[BatchScan]}" FontSize="28" FontWeight="SemiBold" />
+                    <Grid Margin="0,18,0,10">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding BatchFolder, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button Grid.Column="1" Content="Folder" Command="{Binding BrowseBatchFolderCommand}" Margin="8,0,0,0" />
+                    </Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Recursive" IsChecked="{Binding RecursiveBatch}" />
+                        <TextBlock Text="Filter" Margin="20,8,8,0" Foreground="{StaticResource MutedBrush}" />
+                        <TextBox Width="260" Text="{Binding FileTypeFilter}" />
+                        <Button Content="Start batch" Command="{Binding RunBatchCommand}" Margin="10,0,0,0" />
+                        <Button Content="Export CSV/JSON/HTML" Command="{Binding ExportBatchCommand}" />
+                    </StackPanel>
+                    <ProgressBar Value="{Binding ProgressValue}" Height="10" Margin="0,16,0,10" />
+                    <DataGrid ItemsSource="{Binding BatchResults}" Height="440">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="File" Binding="{Binding Triage.FileName}" Width="2*" />
+                            <DataGridTextColumn Header="Type" Binding="{Binding Triage.RealFileType}" Width="*" />
+                            <DataGridTextColumn Header="Risk" Binding="{Binding RiskLevel}" Width="*" />
+                            <DataGridTextColumn Header="Score" Binding="{Binding RiskScore}" Width="*" />
+                            <DataGridTextColumn Header="Summary" Binding="{Binding ExecutiveSummary}" Width="3*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding SelectedPage, Converter={StaticResource PageVisibility}, ConverterParameter=ScanHistory}">
+                    <TextBlock Text="{Binding Strings[ScanHistory]}" FontSize="28" FontWeight="SemiBold" />
+                    <Button Content="Refresh" Command="{Binding RefreshHistoryCommand}" HorizontalAlignment="Left" Margin="0,18,0,10" />
+                    <DataGrid ItemsSource="{Binding HistoryRecords}" Height="560">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="File" Binding="{Binding FileName}" Width="2*" />
+                            <DataGridTextColumn Header="Risk" Binding="{Binding RiskLevel}" Width="*" />
+                            <DataGridTextColumn Header="Score" Binding="{Binding RiskScore}" Width="*" />
+                            <DataGridTextColumn Header="Type" Binding="{Binding FileType}" Width="*" />
+                            <DataGridTextColumn Header="SHA256" Binding="{Binding Sha256}" Width="3*" />
+                            <DataGridTextColumn Header="Report" Binding="{Binding ReportPath}" Width="3*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding SelectedPage, Converter={StaticResource PageVisibility}, ConverterParameter=RuleManager}">
+                    <TextBlock Text="{Binding Strings[RuleManager]}" FontSize="28" FontWeight="SemiBold" />
+                    <StackPanel Orientation="Horizontal" Margin="0,18,0,10">
+                        <Button Content="Validate rules" Command="{Binding ValidateRulesCommand}" />
+                    </StackPanel>
+                    <DataGrid ItemsSource="{Binding Rules}" Height="320">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Rule" Binding="{Binding Name}" Width="2*" />
+                            <DataGridTextColumn Header="Severity" Binding="{Binding Severity}" Width="*" />
+                            <DataGridTextColumn Header="Enabled" Binding="{Binding Enabled}" Width="*" />
+                            <DataGridTextColumn Header="Modified" Binding="{Binding LastModified}" Width="2*" />
+                            <DataGridTextColumn Header="Path" Binding="{Binding Path}" Width="3*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <ListBox ItemsSource="{Binding RuleValidationMessages}" Height="180" Margin="0,12,0,0" Background="{StaticResource CardBrush}" Foreground="{StaticResource TextBrush}" />
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding SelectedPage, Converter={StaticResource PageVisibility}, ConverterParameter=Quarantine}">
+                    <TextBlock Text="{Binding Strings[Quarantine]}" FontSize="28" FontWeight="SemiBold" />
+                    <Border Background="{StaticResource CardBrush}" CornerRadius="8" Padding="18" Margin="0,18,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Suspicious files are copied to quarantine and renamed by hash. The original file is never modified unless you explicitly choose another action." />
+                            <TextBlock Text="{Binding QuarantineFolder}" Foreground="{StaticResource MutedBrush}" Margin="0,10,0,10" />
+                            <Button Content="Quarantine current result" Command="{Binding QuarantineCurrentCommand}" HorizontalAlignment="Left" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding SelectedPage, Converter={StaticResource PageVisibility}, ConverterParameter=Reports}">
+                    <TextBlock Text="{Binding Strings[Reports]}" FontSize="28" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding ReportFolder}" Foreground="{StaticResource MutedBrush}" Margin="0,12,0,8" />
+                    <ListBox ItemsSource="{Binding ReportPaths}" Height="460" Background="{StaticResource CardBrush}" Foreground="{StaticResource TextBrush}" />
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding SelectedPage, Converter={StaticResource PageVisibility}, ConverterParameter=Settings}">
+                    <TextBlock Text="{Binding Strings[Settings]}" FontSize="28" FontWeight="SemiBold" />
+                    <Border Background="{StaticResource CardBrush}" CornerRadius="8" Padding="18" Margin="0,18,0,0">
+                        <StackPanel>
+                            <CheckBox Content="YARA enabled" IsChecked="{Binding Settings.YaraEnabled}" />
+                            <CheckBox Content="oletools enabled" IsChecked="{Binding Settings.OleToolsEnabled}" />
+                            <CheckBox Content="Safe IOC defang enabled" IsChecked="{Binding Settings.SafeIocDefangEnabled}" />
+                            <CheckBox Content="Telemetry enabled (default off)" IsChecked="{Binding Settings.TelemetryEnabled}" />
+                            <CheckBox Content="Cloud upload enabled (default off)" IsChecked="{Binding Settings.CloudUploadEnabled}" />
+                            <TextBlock Text="Max file size bytes" Foreground="{StaticResource MutedBrush}" />
+                            <TextBox Text="{Binding Settings.MaxFileSizeBytes}" />
+                            <TextBlock Text="Archive recursion depth" Foreground="{StaticResource MutedBrush}" Margin="0,10,0,0" />
+                            <TextBox Text="{Binding Settings.ArchiveRecursionDepth}" />
+                            <TextBlock Text="Report output folder" Foreground="{StaticResource MutedBrush}" Margin="0,10,0,0" />
+                            <TextBox Text="{Binding Settings.ReportOutputFolder}" />
+                            <TextBlock Text="Temporary folder" Foreground="{StaticResource MutedBrush}" Margin="0,10,0,0" />
+                            <TextBox Text="{Binding Settings.TemporaryFolderPath}" />
+                            <Button Content="Save settings" Command="{Binding SaveSettingsCommand}" HorizontalAlignment="Left" Margin="0,14,0,0" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding SelectedPage, Converter={StaticResource PageVisibility}, ConverterParameter=About}">
+                    <TextBlock Text="{Binding Strings[About]}" FontSize="28" FontWeight="SemiBold" />
+                    <Border Background="{StaticResource CardBrush}" CornerRadius="8" Padding="22" Margin="0,18,0,0">
+                        <StackPanel>
+                            <Image Source="Assets/app-icon.jpg" Width="128" Height="128" HorizontalAlignment="Left" />
+                            <TextBlock Text="MiyoMacroSentinel" FontSize="26" FontWeight="SemiBold" Margin="0,14,0,0" />
+                            <TextBlock Text="Version 0.1.0" Foreground="{StaticResource MutedBrush}" />
+                            <TextBlock Text="Developed by nktmnh" Foreground="{StaticResource MutedBrush}" Margin="0,4,0,0" />
+                            <TextBlock Text="Privacy-first defensive document security scanner for SOC analysts, cybersecurity students, Office users, and community document-safety checking." Margin="0,12,0,0" />
+                            <TextBlock Text="Files are scanned locally by default. Macros and document content are never executed during static analysis." Margin="0,8,0,0" />
+                            <TextBlock Text="Optional open-source sidecar engines: YARA, oletools, and PDF tools. Community rules can be added under the local rules folder." Foreground="{StaticResource MutedBrush}" Margin="0,8,0,0" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+
+        <Border Grid.Row="2" Grid.ColumnSpan="2" Background="#07111f" BorderBrush="{StaticResource BorderBrushSoft}" BorderThickness="0,1,0,0">
+            <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" Margin="14,0" />
+        </Border>
+    </Grid>
+</Window>
